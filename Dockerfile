@@ -13,6 +13,3 @@ env PYTHONDONTWRITEBYTECODE=1
 env PYTHONUNBUFFERED=1
 
 COPY . .
-
-RUN chmod a+x cmd/*.sh
-
