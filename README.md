@@ -122,3 +122,7 @@ I used build-in in FastAPI Jinja2 template generator and pure JS to display info
 
 To imitate the suspended Frontend application, the endpoints and HTML templates makes additional requests to backend
 
+## Folder structure 
+
+I tried to make a clear and expandable folder structure with methods with headen realization that easy to use and expand, Exception invokers and others to simplify the programming process
+
