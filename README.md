@@ -69,16 +69,16 @@ To run this project, you will need to add the following environment variables to
 
 ### OAuth origins
 - Google
-- - authorized JS origins
-    http://127.0.0.1:8000
-    http://localhost:8000
-- - authorized redirect url
-    http://127.0.0.1:8000/oauth/auth/google
-    http://localhost:8000/oauth/auth/google
+  Authorized JS origins
+    - http://127.0.0.1:8000
+    - http://localhost:8000
+  Authorized redirect url
+    - http://127.0.0.1:8000/oauth/auth/google
+    - http://localhost:8000/oauth/auth/google
 - Github
-- - homepage URL
+  Homepage URL
   - http://127.0.0.1:8000/personal_area
-- - Authorization callback URL
+  Authorization callback URL
   - http://127.0.0.1:8000/oauth/auth/github
   
 
