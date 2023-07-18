@@ -12,7 +12,7 @@
 **Services:** Docker, PostgreSQL, Redis
 
 
-## Run Locally with docker-compose
+# Run Locally with docker-compose
 
 
 ```bash
@@ -25,7 +25,7 @@
   docker-compose up -d
 ```
 
-## Run Locally without docker-compose
+# Run Locally without docker-compose
 
 
 ```bash
