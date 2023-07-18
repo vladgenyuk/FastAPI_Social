@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>FastAPI OAuth Demo</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+
+    <link
+            rel="stylesheet"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+    />
+
+</head>
+<body class="body">
+<h3 style="text-align: center;">
+    Log In:
+</h3>
+<div class="container-sm">
+    <form id="login_form">
+        <div class="form-group">
+            <label for="email">Email address</label>
+            <input name="email" type="email" class="form-control" id="email" placeholder="Enter email">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+        </div>
+        <div class="text text-danger" id="info">{{ info }}</div><br>
+        <button class="btn btn-primary" type="submit">Log in</button>
+    </form>
+    <a href="{{ url_for('register_user_front') }}">New to service?</a>
+</div>
+
+
+<div class="container">
+    <div class="row justify-content-center">
+
+        <div class="col-md-4">
+            <a
+                    href="http://127.0.0.1:8000/oauth/login/google"
+                    class="btn btn-block btn-outline-danger"
+            >
+                <i class="fab fa-google"></i>
+                Login with Google
+            </a>
+        </div>
+
+        <div class="col-md-4">
+            <a
+                    href="http://127.0.0.1:8000/oauth/login/github"
+                    class="btn btn-block btn-outline-dark"
+            >
+                <i class="fab fa-github"></i>
+                Login with GitHub
+            </a>
+        </div>
+    </div>
+
+</div>
+<br><br>
+
+
+    <script>
+        const form = document.getElementById("login_form");
+        let wrong = document.getElementById("info");
+
+        form.addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const formData = new FormData(form);
+            const data = Object.fromEntries(formData);
+            console.log(data);
+
+
+            const response = await fetch("http://127.0.0.1:8000/auth/login", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(data)
+            });
+            const result = await response.json();
+            console.log(result);
+            if(response.status == 401){
+                wrong.innerHTML = result.detail;
+            }
+            if(response.status == 200){
+                window.location.replace('http://127.0.0.1:8000/pages/my_articles');
+            }
+        });
+    </script>
+
+</body>
+</html>

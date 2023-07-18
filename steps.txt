@@ -1,3 +1,15 @@
+alembic init migrations
 alembic revision --autogenerate -m "database_creation"
+alembic upgrade head
 
 docker run --name webtronics_db -d -p 5432:5432 -e POSTGRES_USER=vlad -e POSTGRES_PASSWORD=qseawdzxc1 postgres
+docker run --name redis_cache -d -p 6379:6379 redis
+
+DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+GRANT ALL ON SCHEMA public TO vlad;
+GRANT ALL ON SCHEMA public TO public;
+COMMENT ON SCHEMA public IS 'standard public schema';
+
+
+docker build . -t fastapi_app

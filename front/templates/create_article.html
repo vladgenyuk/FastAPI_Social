@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create article</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    </head>
+    <body>
+    <a class="btn btn-info" href="{{ url_for('sign_in_page') }}">Back to personal area</a>
+    <h1 style="text-align: center;">Add a new Article:</h1>
+    <div class="container">
+        <form id="create_form">
+            <label for="title">Title:</label><br>
+            <input class="form-control-lg" type="text" id="title" name="title"><br><br>
+            <label for="content">Content:</label>
+            <textarea class="form-control" id="content" name="content"></textarea><br>
+            <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+        </form>
+    </div>
+
+        <script>
+            const form = document.getElementById("create_form");
+
+            form.addEventListener("submit", async (event) => {
+                event.preventDefault();
+                const formData = new FormData(form);
+                const data = Object.fromEntries(formData);
+                data.author_email = "{{ email }}";
+                console.log(data);
+
+                const response = await fetch("http://127.0.0.1:8000/articles", {
+                    method: "POST",
+                    headers: {
+                        "Authorization": "Bearer {{ access_token }}",
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify(data)
+                });
+                const result = await response.json();
+                console.log(result);
+                if(response.status == 200){
+                    window.location.replace('http://127.0.0.1:8000/pages/my_articles');
+                }
+            });
+        </script>
+    </body>
+</html>

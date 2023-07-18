@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Articles</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body class="body">
+<a class="btn btn-info" href="{{ url_for('sign_in_page') }}">Back to personal area</a>
+<h1 style="text-align: center;">Page with paginated articles</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+          {% for article in articles %}
+            <div class="article-box">
+                  <h2 class="article-title">{{ article.title }}</h2>
+                  <p class="article-meta">Created at: {{ article.created_at }} | Author Email: {{ article.author_email }}</p>
+                  <p class="article-content">Content:</p>
+                  <p class="article-content">{{ article.content }}</p>
+                {% if article.author_email != email %}
+                    <button data-item-id="{{ article.id }}" id="like-{{ article.id }}" class="btn btn-success">Likes: {{ votes["%d" | format(article.id) ]['likes'] }}</button> |
+                    <button data-item-id="{{ article.id }}" id="dislike-{{ article.id }}" class="btn btn-danger">Dislikes: {{ votes["%d" | format(article.id) ]['dislikes'] }}</button>
+                {% else %}
+                    <p class="article-stats">
+                        Likes: {{ votes["%d" | format(article.id) ]['likes'] }} |
+                        Dislikes: {{ votes["%d" | format(article.id) ]['dislikes'] }}
+                    </p>
+                {% endif %}
+            </div>
+          {% endfor %}
+
+          {% if prev_page %}
+                <a class="btn btn-success" href="{{ url_for('get_articles_front', page=prev_page) }}">Previous</a>
+          {% endif %}
+          {% if next_page %}
+                <a class="btn btn-success" href="{{ url_for('get_articles_front', page=next_page) }}">Next</a>
+          {% endif %}
+      </div>
+    </div>
+  </div>
+
+
+<script>
+    const likeButtons = document.querySelectorAll("[id^=like-]");
+    const dislikeButtons = document.querySelectorAll("[id^=dislike-]");
+
+    likeButtons.forEach(likeButton => {
+        likeButton.addEventListener("click", async () => {
+            const itemId = likeButton.dataset.itemId;
+            const response = await fetch(
+                   `http://127.0.0.1:8000/votes/toggle_like_dislike/${itemId}/{{ email }}/like`,
+                    { method: "POST" }
+                );
+            });
+        });
+
+    dislikeButtons.forEach(dislikeButton => {
+        dislikeButton.addEventListener("click", async () => {
+            const itemId = dislikeButton.dataset.itemId;
+            const response = await fetch(
+                   `http://127.0.0.1:8000/votes/toggle_like_dislike/${itemId}/{{ email }}/dislike`,
+                    { method: "POST" }
+                );
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Registration form</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body class="body">
+<a class="btn btn-info" href="{{ url_for('sign_in_page') }}">Back</a>
+<br><br>
+<div class="container mb-4">
+  <form id="reg_form">
+    <div class="form-group">
+      <label for="username">Username</label>
+      <input name="username" type="text" class="form-control" id="username" placeholder="Enter username">
+    </div>
+    <div class="form-group">
+      <label for="email">Email address</label>
+      <input name="email" type="email" class="form-control" id="email" placeholder="Enter email">
+    </div>
+    <div class="text text-danger" id="info">{{ info }}</div><br>
+    <div class="form-group">
+      <label for="password">Password</label>
+      <input name="password" type="password" class="form-control" id="password" placeholder="Password">
+    </div>
+    <div class="form-group">
+      <label for="repeat_password">Password</label>
+      <input name="repeat_password" type="password" class="form-control" id="repeat_password" placeholder="Repeat Password">
+    </div>
+    <button class="btn btn-primary" type="submit" value="Submit">Submit</button>
+  </form>
+</div>
+
+<script>
+    const form = document.getElementById("reg_form");
+    let wrong = document.getElementById("info");
+
+    form.addEventListener("submit", async (event) => {
+        event.preventDefault();
+        const formData = new FormData(form);
+        const data = Object.fromEntries(formData);
+        console.log(data);
+        data.oauth = "vlad";
+        data.account_id = "vlad";
+        const response = await fetch("http://127.0.0.1:8000/auth/signup", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        console.log(result);
+        if(response.status == 400 || response.status == 403 || response.status == 401){
+            wrong.innerHTML = result.detail;
+        };
+        if(response.status == 200){
+            window.location.replace('http://127.0.0.1:8000/pages/my_articles');
+        }
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Articles</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+<a class="btn btn-info" href="{{ url_for('sign_in_page') }}">Back to personal area</a>
+
+<h1 style="text-align: center;">Page with your articles</h1>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        {% for article in articles %}
+            <div class="article-box">
+                  <h2 class="article-title">{{ article.title }}</h2>
+                  <p class="article-meta">Created at: {{ article.created_at }}</p>
+                  <p class="article-meta">Author Email: {{ article.author_email }}</p>
+                  <p class="article-content">Content:</p>
+                  <p class="article-content">{{ article.content }}</p>
+                    <p class="article-stats">
+                        Likes: {{ votes["%d" | format(article.id) ]['likes'] }} |
+                        Dislikes: {{ votes["%d" | format(article.id) ]['dislikes'] }}
+                    </p>
+                <button id="delete-button-{{ article.id }}" class="btn btn-danger" data-item-id="{{ article.id }}">Delete article</button>
+                <a href="{{ url_for('update_article_front', article_id=article.id ) }}">
+                    <button id="update-button-{{ article.id }}" class="btn btn-warning" data-item-id="{{ article.id }}">Update article</button>
+                </a>
+            </div>
+          {% endfor %}
+      </div>
+    </div>
+  </div>
+<script>
+    const deleteButtons = document.querySelectorAll("[id^=delete-button-]");
+    const authToken = "{{ access_token }}";
+
+    deleteButtons.forEach(deleteButton => {
+        deleteButton.addEventListener("click", async () => {
+            const itemId = deleteButton.dataset.itemId;
+            const response = await fetch(`http://127.0.0.1:8000/articles/${itemId}`, {
+                method: "DELETE",
+                headers: {
+                    "Authorization": `Bearer ${authToken}`
+                }
+            });
+
+            deleteButton.innerHTML = "DELETED";
+        });
+    });
+</script>
+</body>
+</html>
