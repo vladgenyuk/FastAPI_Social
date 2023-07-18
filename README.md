@@ -12,9 +12,8 @@
 **Services:** Docker, PostgreSQL, Redis
 
 
-## Run Locally
+## Run Locally with docker-compose
 
-Clone the project
 
 ```bash
   git clone -b vlad https://github.com/vladgenyuk/Tets_WebTronics 
@@ -25,20 +24,28 @@ Clone the project
 ```bash
   docker-compose up -d
 ```
-http://127.0.0.1:8000/docs 
 
-http://127.0.0.1:8000/pages/personal_area 
+## Run Locally without docker-compose
+
+
+```bash
+  git clone -b vlad https://github.com/vladgenyuk/Tets_WebTronics 
+```
+```bash
+  docker run --name webtronics_db -d -p 5432:5432 -e POSTGRES_USER=vlad -e POSTGRES_PASSWORD=qseawdzxc1 postgres
+
+  docker run --name redis_cache -d -p 6379:6379 redis  
+```
+- Set .env `DB_HOST`, `REDIS_HOST` as `localhost`
+
+```bash
+  uvicorn src.main:app --reload
+```
 
 
 ## Environment Variables
 
 To run this project, you will need to add the following environment variables to your .env file
-
-- Used in Docker, to run without containers - set `localhost`  
-
-`DB_HOST`
-
-`REDIS_HOST`
 
 - Secret password that used to register users via OAuth
 
