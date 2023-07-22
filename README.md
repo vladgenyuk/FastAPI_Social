@@ -29,6 +29,9 @@
 ```bash
   git clone -b vlad https://github.com/vladgenyuk/Tets_WebTronics 
 ```
+```
+alembic upgrade head
+```
 ```bash
   docker run --name webtronics_db -d -p 5432:5432 -e POSTGRES_USER=vlad -e POSTGRES_PASSWORD=qseawdzxc1 postgres
 
