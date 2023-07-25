@@ -131,3 +131,7 @@ To imitate the suspended Frontend application, the endpoints and HTML templates 
 
 I tried to make a clear and expandable folder structure with methods with headen realization that easy to use and expand, Exception invokers and others to simplify the programming process
 
+## Afterword
+
+It was more convenient to me to change the name of Posts to Articles, i decided to make application for view users articles, so it has the same functionality as i used posts, in the conditions of the assignment, it was possible to change something
+
