@@ -1,4 +1,4 @@
-alembic init migrations
+alembic init -t async migrations
 alembic revision --autogenerate -m "database_creation"
 alembic upgrade head
 
